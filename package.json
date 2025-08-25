@@ -1,9 +1,22 @@
 {
   "name": "commitz",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Git commit standardizer CLI with emojis",
+  "main": "commit.js",
+  "author": {
+    "name": "Rodrigo Zandonadi",
+    "email": "rodrigo.zandonadi.dev@gmail.commit",
+    "url": ""
+  },
   "license": "MIT",
   "type": "module",
+   "keywords": [
+    "git",
+    "commit",
+    "cli",
+    "standardize",
+    "emoji"
+  ],
   "bin": {
     "commitz": "./commit.js"
   },
