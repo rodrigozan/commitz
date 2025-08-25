@@ -40,6 +40,14 @@ async function main() {
     // Commit with the formatted message
     execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' });
 
+    console.log(`\nPushing to origin/${branchName}...`);
+
+    // Push to current branch
+    execSync(`git push origin ${branchName}`, { stdio: 'inherit' });
+
+    // Get current branch
+    const branchName = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
+
     console.log('\nCommit completed successfully!');
   } catch (error) {
     console.error('\nFailed to commit. Make sure you are inside a git repository and have staged changes.');
