@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "commitz": "./commit.js"
+  },
   "dependencies": {
     "inquirer": "^12.9.4"
   }

@@ -12,35 +12,39 @@ const commitTypes = [
   { name: 'chore (🧹 - Routine maintenance)', value: { emoji: '🧹', keyword: 'chore' } },
   { name: 'style (🎨 - Code style changes)', value: { emoji: '🎨', keyword: 'style' } },
   { name: 'raw (💾 - Data)', value: { emoji: '💾', keyword: 'raw' } },
-  // Add other types as needed
 ];
 
-async function run() {
-  const answers = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'type',
-      message: 'Select the commit type:',
-      choices: commitTypes,
-    },
-    {
-      type: 'input',
-      name: 'message',
-      message: 'Commit message:',
-      validate: input => input.length > 0 || 'Message is required.',
-    },
-  ]);
-
-  const commitMsg = `${answers.type.emoji} ${answers.type.keyword}: ${answers.message}`;
-  console.log('\nGenerated commit:', commitMsg);
-
+async function main() {
   try {
-    execSync('git add .', { stdio: 'inherit' }); // Stage all changes
-    execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' }); // Commit with standard message
+    const answers = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'type',
+        message: 'Select the commit type:',
+        choices: commitTypes,
+      },
+      {
+        type: 'input',
+        name: 'message',
+        message: 'Commit message:',
+        validate: input => input.length > 0 || 'Message is required.',
+      },
+    ]);
+
+    const commitMsg = `${answers.type.emoji} ${answers.type.keyword}: ${answers.message}`;
+    console.log('\nGenerated commit:', commitMsg);
+
+    // Stage all changed files
+    execSync('git add .', { stdio: 'inherit' });
+
+    // Commit with the formatted message
+    execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' });
+
     console.log('\nCommit completed successfully!');
-  } catch (e) {
-    console.error('\nFailed to commit. Ensure you are in a git repository and there are staged changes.');
+  } catch (error) {
+    console.error('\nFailed to commit. Make sure you are inside a git repository and have staged changes.');
+    console.error('Error:', error.message);
   }
 }
 
-run();
+main();
