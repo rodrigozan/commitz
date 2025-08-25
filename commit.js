@@ -34,23 +34,22 @@ async function main() {
     const commitMsg = `${answers.type.emoji} ${answers.type.keyword}: ${answers.message}`;
     console.log('\nGenerated commit:', commitMsg);
 
-    // Stage all changed files
+    // Stage all changes
     execSync('git add .', { stdio: 'inherit' });
 
-    // Commit with the formatted message
+    // Commit changes
     execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' });
 
+    // Get current branch name AFTER commit success
+    const branchName = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
     console.log(`\nPushing to origin/${branchName}...`);
 
     // Push to current branch
     execSync(`git push origin ${branchName}`, { stdio: 'inherit' });
 
-    // Get current branch
-    const branchName = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf-8' }).trim();
-
-    console.log('\nCommit completed successfully!');
+    console.log('\nCommit and push completed successfully!');
   } catch (error) {
-    console.error('\nFailed to commit. Make sure you are inside a git repository and have staged changes.');
+    console.error('\nFailed to commit or push. Check if you are in a git repository and have staged changes.');
     console.error('Error:', error.message);
   }
 }
