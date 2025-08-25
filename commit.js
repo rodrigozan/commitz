@@ -1,45 +1,45 @@
-const inquirer = require('inquirer');
-const { execSync } = require('child_process');
+import inquirer from 'inquirer';
+import { execSync } from 'child_process';
 
-const tiposCommit = [
-  { name: 'feat (✨ - Nova funcionalidade)', value: { emoji: '✨', chave: 'feat' } },
-  { name: 'fix (🐛 - Correção de bug)', value: { emoji: '🐛', chave: 'fix' } },
-  { name: 'refactor (♻️ - Refatoração)', value: { emoji: '♻️', chave: 'refactor' } },
-  { name: 'docs (📚 - Documentação)', value: { emoji: '📚', chave: 'docs' } },
-  { name: 'test (🧪 - Testes)', value: { emoji: '🧪', chave: 'test' } },
-  { name: 'ci (⚙️ - Integração/Configuração)', value: { emoji: '⚙️', chave: 'ci' } },
-  { name: 'perf (⚡ - Performance)', value: { emoji: '⚡', chave: 'perf' } },
-  { name: 'chore (🧹 - Tarefas)', value: { emoji: '🧹', chave: 'chore' } },
-  { name: 'style (🎨 - Estilo)', value: { emoji: '🎨', chave: 'style' } },
-  { name: 'raw (💾 - Dados)', value: { emoji: '💾', chave: 'raw' } },
-  // Adicione outros tipos conforme a necessidade
+const commitTypes = [
+  { name: 'feat (✨ - New feature)', value: { emoji: '✨', keyword: 'feat' } },
+  { name: 'fix (🐛 - Bug fix)', value: { emoji: '🐛', keyword: 'fix' } },
+  { name: 'refactor (♻️ - Refactor code)', value: { emoji: '♻️', keyword: 'refactor' } },
+  { name: 'docs (📚 - Documentation)', value: { emoji: '📚', keyword: 'docs' } },
+  { name: 'test (🧪 - Add/modify tests)', value: { emoji: '🧪', keyword: 'test' } },
+  { name: 'ci (⚙️ - CI/CD config)', value: { emoji: '⚙️', keyword: 'ci' } },
+  { name: 'perf (⚡ - Performance improvements)', value: { emoji: '⚡', keyword: 'perf' } },
+  { name: 'chore (🧹 - Routine maintenance)', value: { emoji: '🧹', keyword: 'chore' } },
+  { name: 'style (🎨 - Code style changes)', value: { emoji: '🎨', keyword: 'style' } },
+  { name: 'raw (💾 - Data)', value: { emoji: '💾', keyword: 'raw' } },
+  // Add other types as needed
 ];
 
 async function run() {
   const answers = await inquirer.prompt([
     {
       type: 'list',
-      name: 'tipo',
-      message: 'Qual o tipo do commit?',
-      choices: tiposCommit,
+      name: 'type',
+      message: 'Select the commit type:',
+      choices: commitTypes,
     },
     {
       type: 'input',
-      name: 'mensagem',
-      message: 'Mensagem do commit:',
-      validate: input => input.length > 0 || 'Mensagem obrigatória.',
+      name: 'message',
+      message: 'Commit message:',
+      validate: input => input.length > 0 || 'Message is required.',
     },
   ]);
 
-  const commitMsg = `${answers.tipo.emoji} ${answers.tipo.chave}: ${answers.mensagem}`;
-  console.log('\nCommit Gerado:', commitMsg);
+  const commitMsg = `${answers.type.emoji} ${answers.type.keyword}: ${answers.message}`;
+  console.log('\nGenerated commit:', commitMsg);
 
   try {
-    execSync('git add .', { stdio: 'inherit' }); // Adiciona todas as alterações
-    execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' }); // Faz o commit
-    console.log('\nCommit realizado com sucesso!');
+    execSync('git add .', { stdio: 'inherit' }); // Stage all changes
+    execSync(`git commit -m "${commitMsg}"`, { stdio: 'inherit' }); // Commit with standard message
+    console.log('\nCommit completed successfully!');
   } catch (e) {
-    console.error('\nFalha ao realizar commit. Verifique se está em um repositório git e há alterações.');
+    console.error('\nFailed to commit. Ensure you are in a git repository and there are staged changes.');
   }
 }
 
