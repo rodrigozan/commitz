@@ -15,6 +15,7 @@ const commitTypes = [
   { name: 'Comments (💬)', value: { emoji: '💬', keyword: 'fix' } },
   { name: 'Initial commit (🎉)', value: { emoji: '🎉', keyword: 'chore' } },
   { name: 'Configuration (🔧)', value: { emoji: '🔧', keyword: 'chore' } },
+  { name: 'Database (📁)', value: { emoji: '📁', keyword: 'database' } },
   { name: 'Create file (🗒️)', value: { emoji: '🗒️', keyword: 'create' } },
   { name: 'Deploy (🚀)', value: { emoji: '🚀', keyword: 'chore' } },
   { name: 'Documentation (📚)', value: { emoji: '📚', keyword: 'docs' } },
